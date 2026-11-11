@@ -11,6 +11,7 @@ from hsauth import api
 HSAuthApp = api(
     name="MyApp",
     ownerid="your_app_identifier_here",
+    secret="your_app_secret_here",
     version="1.0",
     api_url="https://hsauth.mujahid.xyz/api/1.3/"
 )

@@ -17,11 +17,15 @@ import urllib.parse
 import urllib.error
 
 class api:
-    def __init__(self, name, ownerid, version="1.0", api_url="https://hsauth.mujahid.xyz/api/1.3/"):
-        self.name = name
-        self.ownerid = ownerid
-        self.version = version
-        self.api_url = api_url.rstrip("/") + "/"
+    def __init__(self, name, ownerid, secret, version="1.0", api_url="https://hsauth.mujahid.xyz/api/1.3/"):
+        if not name or not ownerid or not str(secret or "").strip():
+            raise ValueError("Application name, ownerid, and secret are all required.")
+        self.name = str(name)
+        self.ownerid = str(ownerid)
+        self.secret = str(secret).strip()
+        self.version = str(version or "1.0")
+        self.api_url = (api_url or "https://hsauth.mujahid.xyz/api/1.3/").rstrip("/") + "/"
+
         self.sessionid = ""
         self.initialized = False
         self.user_data = {}
@@ -56,8 +60,11 @@ class api:
         return hashlib.sha256(raw.encode()).hexdigest()[:32]
 
     def _req(self, data):
+        if not getattr(self, "secret", ""):
+            return {"success": False, "message": "Application secret is required"}
         data["name"] = self.name
         data["ownerid"] = self.ownerid
+        data["secret"] = self.secret
         encoded_data = urllib.parse.urlencode(data).encode("utf-8")
         req = urllib.request.Request(
             self.api_url,
