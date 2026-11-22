@@ -7,13 +7,13 @@ import sys
 import time
 from hsauth import api
 
-# Replace with your app credentials from https://hsauth.mujahid.xyz/dashboard
+# Replace with your app credentials from https://auth.hsdevs.pro/dashboard
 HSAuthApp = api(
     name="MyApp",
     ownerid="your_app_identifier_here",
     secret="your_app_secret_here",
     version="1.0",
-    api_url="https://hsauth.mujahid.xyz/api/1.3/"
+    api_url="https://auth.hsdevs.pro/api/1.3/"
 )
 
 def broadcast_handler(msg):
