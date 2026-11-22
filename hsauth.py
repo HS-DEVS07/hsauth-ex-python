@@ -17,14 +17,14 @@ import urllib.parse
 import urllib.error
 
 class api:
-    def __init__(self, name, ownerid, secret, version="1.0", api_url="https://hsauth.mujahid.xyz/api/1.3/"):
+    def __init__(self, name, ownerid, secret, version="1.0", api_url="https://auth.hsdevs.pro/api/1.3/"):
         if not name or not ownerid or not str(secret or "").strip():
             raise ValueError("Application name, ownerid, and secret are all required.")
         self.name = str(name)
         self.ownerid = str(ownerid)
         self.secret = str(secret).strip()
         self.version = str(version or "1.0")
-        self.api_url = (api_url or "https://hsauth.mujahid.xyz/api/1.3/").rstrip("/") + "/"
+        self.api_url = (api_url or "https://auth.hsdevs.pro/api/1.3/").rstrip("/") + "/"
 
         self.sessionid = ""
         self.initialized = False
