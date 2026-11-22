@@ -1,6 +1,6 @@
 # HS DEVS AUTH - Python Client SDK (`hsauth.py`)
 
-Official Python client library for [HS DEVS AUTH](https://hsauth.mujahid.xyz).
+Official Python client library for [HS DEVS AUTH](https://auth.hsdevs.pro).
 
 ## Highlights
 - **Zero Third-Party Dependencies**: Pure Python standard library (`urllib.request`, `json`, `platform`, `hashlib`, `threading`).
@@ -17,7 +17,7 @@ HSAuthApp = api(
     ownerid="your_app_identifier_here",
     secret="your_app_secret_here",
     version="1.0",
-    api_url="https://hsauth.mujahid.xyz/api/1.3/"
+    api_url="https://auth.hsdevs.pro/api/1.3/"
 )
 
 # 1. Initialize
