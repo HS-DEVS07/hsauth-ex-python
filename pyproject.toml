@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hsauth"
+version = "2.0.0"
+description = "Official Python Client SDK for HS DEVS AUTH Licensing & Authentication API"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "HS DEVS", email = "support@hsdevs.pro" }
+]
+requires-python = ">=3.7"
+dependencies = []
+keywords = ["hsauth", "licensing", "authentication", "hwid", "security", "anti-tamper"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Security :: Cryptography"
+]
+
+[project.urls]
+Homepage = "https://auth.hsdevs.pro"
+Documentation = "https://auth.hsdevs.pro/docs"
+Dashboard = "https://auth.hsdevs.pro/dashboard"
+Repository = "https://github.com/HS-DEVS07/hsauth-ex-python"
