@@ -17,14 +17,37 @@ import urllib.parse
 import urllib.error
 
 class api:
-    def __init__(self, name, ownerid, secret, version="1.0", api_url="https://auth.hsdevs.pro/api/1.3/"):
-        if not name or not ownerid or not str(secret or "").strip():
-            raise ValueError("Application name, ownerid, and secret are all required.")
-        self.name = str(name)
-        self.ownerid = str(ownerid)
-        self.secret = str(secret).strip()
-        self.version = str(version or "1.0")
-        self.api_url = (api_url or "https://auth.hsdevs.pro/api/1.3/").rstrip("/") + "/"
+    def __init__(self, name, ownerid, secret=None, version="1.0", api_url="https://auth.hsdevs.pro/api/1.3/"):
+        self.name = name
+        self.ownerid = ownerid
+
+        # Robust argument detection:
+        # Supports:
+        # - KeyAuth positional args: api(name, ownerid, secret, version, api_url)
+        # - HSAuth positional args: api(name, ownerid, version, api_url)
+        # - Keyword args: api(name=..., ownerid=..., version=..., api_url=...)
+        if isinstance(version, str) and (version.startswith("http://") or version.startswith("https://")):
+            self.api_url = version.rstrip("/") + "/"
+            self.version = str(secret) if secret is not None else "1.0"
+            self.secret = ""
+        elif isinstance(secret, str) and (secret.startswith("http://") or secret.startswith("https://")):
+            self.secret = ""
+            self.version = str(version) if version != "1.0" else "1.0"
+            self.api_url = secret.rstrip("/") + "/"
+        elif secret is None:
+            self.secret = ""
+            self.version = str(version)
+            self.api_url = (api_url or "https://auth.hsdevs.pro/api/1.3/").rstrip("/") + "/"
+        elif version == "1.0" and len(str(secret)) <= 10 and any(c in str(secret) for c in ".0123456789") and not (isinstance(version, str) and len(str(version)) > 10):
+            # 3 positional args provided: api(name, ownerid, version)
+            self.version = str(secret)
+            self.secret = ""
+            self.api_url = (api_url or "https://auth.hsdevs.pro/api/1.3/").rstrip("/") + "/"
+        else:
+            # 4 positional args provided: api(name, ownerid, secret, version)
+            self.secret = str(secret) if secret else ""
+            self.version = str(version)
+            self.api_url = (api_url or "https://auth.hsdevs.pro/api/1.3/").rstrip("/") + "/"
 
         self.sessionid = ""
         self.initialized = False
@@ -60,11 +83,10 @@ class api:
         return hashlib.sha256(raw.encode()).hexdigest()[:32]
 
     def _req(self, data):
-        if not getattr(self, "secret", ""):
-            return {"success": False, "message": "Application secret is required"}
         data["name"] = self.name
         data["ownerid"] = self.ownerid
-        data["secret"] = self.secret
+        if getattr(self, "secret", None):
+            data["secret"] = self.secret
         encoded_data = urllib.parse.urlencode(data).encode("utf-8")
         req = urllib.request.Request(
             self.api_url,
