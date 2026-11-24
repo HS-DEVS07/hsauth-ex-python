@@ -1,0 +1,3 @@
+# HS DEVS AUTH Python SDK Requirements
+# Zero third-party dependencies required (Standard Library only: urllib, json, platform, hashlib, threading).
+# Python 3.7+ compatible.
